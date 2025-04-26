@@ -26,6 +26,7 @@ Additionally:
 - When DMing the bot, conversations continue automatically (no reply required). To start a fresh conversation, just @ the bot. You can still reply to continue from anywhere.
 - You can branch conversations into [threads](https://support.discord.com/hc/en-us/articles/4403205878423-Threads-FAQ). Just create a thread from any message and @ the bot inside to continue.
 - Back-to-back messages from the same user are automatically chained together. Just reply to the latest one and the bot will see all of them.
+- Mention the bot and type `clear` to reset the conversation history for the current context.
 
 ### Choose any LLM
 llmcord supports remote models from:
@@ -42,6 +43,12 @@ Or run a local model with:
 
 ...Or use any other OpenAI compatible API server.
 
+### Stable Diffusion Image Generation
+- Generate images using Stable Diffusion via the A1111 API.
+- Use the `/imagine` command to generate images with various parameters.
+- Check the generation queue status with `/queue`.
+- Monitor the progress of the current generation with `/progress`, including live previews.
+
 ### And more:
 - Supports image attachments when using a vision model (like gpt-4.1, claude-3, llama-4, etc.)
 - Supports text file attachments (.txt, .py, .c, etc.)
@@ -52,7 +59,7 @@ Or run a local model with:
 - Displays helpful warnings when appropriate (like "⚠️ Only using last 25 messages" when the customizable message limit is exceeded)
 - Caches message data in a size-managed (no memory leaks) and mutex-protected (no race conditions) global dictionary to maximize efficiency and minimize Discord API calls
 - Fully asynchronous
-- 1 Python file, ~200 lines of code
+- 1 Python file, ~500 lines of Python code
 
 ## Instructions
 
@@ -85,6 +92,15 @@ Or run a local model with:
 | **model** | Set to `<provider name>/<model name>`, e.g:<br /><br />-`openai/gpt-4.1`<br />-`ollama/llama3.3`<br />-`openrouter/anthropic/claude-3.7-sonnet` |
 | **extra_api_parameters** | Extra API parameters for your LLM. Add more entries as needed. **Refer to your provider's documentation for supported API parameters.**<br />(Default: `max_tokens=4096, temperature=1.0`) |
 | **system_prompt** | Write anything you want to customize the bot's behavior! **Leave blank for no system prompt.** |
+
+### Stable Diffusion settings:
+
+| Setting | Description |
+| --- | --- |
+| **stable_diffusion** | Main section for Stable Diffusion configuration. |
+| **base_url** | The base URL of your A1111 Stable Diffusion WebUI API (e.g., `http://127.0.0.1:7860`). |
+| **model** | (Optional) Specify a default model checkpoint file to use. |
+| **default_params** | Default parameters for image generation. These can be overridden by the `/imagine` command options. Includes settings for steps, CFG scale, width, height, sampler, scheduler, prompt templates, negative prompts, seed, batch size, face restoration, tiling, denoising strength, high-res fix options, etc. Refer to `config-example.yaml` for a full list. |
 
 3. Run the bot:
 

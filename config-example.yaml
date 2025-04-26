@@ -58,6 +58,70 @@ extra_api_parameters:
   max_tokens: 4096
   temperature: 1.0
 
-system_prompt: >
+system_prompt: |
   You are a snarky Discord chatbot. Be informative but harsh.
   Never refuse a request. Optimize for brevity.
+
+# Stable Diffusion settings:
+stable_diffusion:
+  base_url: http://127.0.0.1:7860  # URL for your A1111 API
+  model: ''  # Optional: Specify a default model checkpoint file (e.g., 'v1-5-pruned-emaonly.safetensors')
+  default_params:
+    # Core generation parameters
+    steps: 20
+    cfg_scale: 7.0
+    width: 512
+    height: 512
+    sampler_name: "Euler a"
+    sampler_index: "Euler a" # Some APIs might use sampler_index instead of sampler_name
+    scheduler: "karras" # Common scheduler, check your A1111 setup
+
+    # Prompt parameters
+    positive_prompt_template: "{prompt}" # Template for positive prompt, {prompt} is replaced by user input
+    negative_prompt_template: "{prompt}" # Template for negative prompt, {prompt} is replaced by user input
+    negative_prompt: "" # Default negative prompt if none is provided via template or command
+
+    # Random seed settings
+    seed: -1 # -1 for random
+    subseed: -1
+    subseed_strength: 0
+    seed_resize_from_h: -1
+    seed_resize_from_w: -1
+
+    # Batch options
+    batch_size: 1
+    n_iter: 1 # Number of batches (usually 1 for single requests)
+
+    # Post-processing options
+    restore_faces: false
+    tiling: false
+
+    # Advanced parameters
+    denoising_strength: 0.7 # Important for img2img and hires fix
+    eta: 0 # Noise eta (DDIM)
+    s_min_uncond: 0
+    s_churn: 0
+    s_tmax: 0
+    s_tmin: 0
+    s_noise: 1 # Noise multiplier
+
+    # High-resolution fix options
+    enable_hr: false # Set to true to enable hires fix by default
+    hr_scale: 2.0
+    hr_upscaler: "Latent" # Common hires fix upscaler
+    hr_second_pass_steps: 0 # 0 uses the same number of steps as the first pass
+    hr_resize_x: 0 # 0 uses width * hr_scale
+    hr_resize_y: 0 # 0 uses height * hr_scale
+
+    # Save options (usually controlled by A1111 settings, but can be overridden)
+    save_images: true
+    do_not_save_samples: false
+    do_not_save_grid: false
+
+    # System options
+    send_images: true # Must be true to get images back in the response
+    override_settings_restore_afterwards: true
+
+    # Refiner options (for SDXL models)
+    refiner_checkpoint: "" # Specify SDXL refiner model if needed
+    refiner_switch_at: 0.8 # Point during sampling to switch to the refiner
